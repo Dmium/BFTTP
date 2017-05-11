@@ -19,21 +19,27 @@ public class ClientListener {
 			while (inFromClient.ready())
 				clientRequest.add(inFromClient.readLine());
 			System.out.println(clientRequest);
-			requestParse = clientRequest.get(0).split(" ");
-			System.out.println(requestParse[0]);
-			if (requestParse[0].equals("GET")){
-				System.out.println("^.v");
-				interpreter = new Interpreter(requestParse[1]+ "index.bf");
-				Thread.sleep(100);
-				outputHTML = interpreter.readToEnd();
-				System.out.println(outputHTML);
-				//outputHTML = "cake";
-				outToClient.write("HTTP/1.1 200 OK");
-				outToClient.newLine();
-				outToClient.newLine();
-				outToClient.write(outputHTML);
-				outToClient.newLine();
-				outToClient.flush();
+			if (clientRequest.size() > 0) {
+				requestParse = clientRequest.get(0).split(" ");
+				System.out.println(requestParse[0]);
+				if (requestParse[0].equals("GET")) {
+					System.out.println("^.v");
+					interpreter = new Interpreter(requestParse[1] + "index.bf");
+					outputHTML = interpreter.readToEnd();
+					System.out.println(outputHTML);
+					// outputHTML = "cake";
+					
+					if(outputHTML.contains(" Create a test.bf file to run")){
+						outToClient.write("HTTP/1.1 404 Not Found");
+					}else{
+						outToClient.write("HTTP/1.1 200 OK");
+					}
+					outToClient.newLine();
+					outToClient.newLine();
+					outToClient.write(outputHTML);
+					outToClient.newLine();
+					outToClient.flush();
+				}
 			}
 			connectionSocket.close();
 		}
