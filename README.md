@@ -11,6 +11,7 @@ to start: (in BFWebServer/bin/) java ClientListener
 
 
 TODO
+-Rewrite entire project
 
 -Fix error where code doesn't return 404
 
