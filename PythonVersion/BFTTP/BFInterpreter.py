@@ -13,11 +13,11 @@ class BFInterpreter:
         file.close()
 
     def interpret(self):
-        dat = []
+        dat = ""
         for i in range(1, len(self.instruction_tape.data)):
             self.instruction_tape.move_left()
         for i in range(1, len(self.instruction_tape.data)):
-            dat.append(self.instruction_tape.read())
+            print(i)
+            dat += self.instruction_tape.read()
             self.instruction_tape.move_right()
-        print(dat)
         return dat
